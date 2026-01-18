@@ -5,9 +5,7 @@ const StyledTextField = styled(MuiTextField)`
   &.MuiInputBase-root {
     color: #fff;
     &.MuiInput-root {
-      color: #fff;
       height: 30px;
-      color: #fff;
       font-weight: 400;
       font-size: 12px;
       line-height: 15px;
@@ -15,23 +13,6 @@ const StyledTextField = styled(MuiTextField)`
       margin-bottom: 24px;
     }
   }
-
-  /*
-  & .MuiInput-underline {
-    border-color: #fff;
-    &::after {
-      border-color: #fff;
-    }
-    &::before {
-      border-color: #fff;
-    }
-    &:active {
-      border-color: #fff;
-    }
-    &:hover {
-      border-color: #fff;
-    }
-  }*/
 
   input {
     color: #fff;
@@ -47,16 +28,24 @@ const StyledTextField = styled(MuiTextField)`
   }
 `;
 
-const TextField: React.FC<TextFieldProps> = (props: TextFieldProps) => {
+const TextField: React.FC<TextFieldProps> = (props) => {
+  const variant = props.variant || 'standard';
+
+  // Conditionally assign InputProps based on variant
+  const inputProps =
+    variant === 'standard' || variant === 'filled'
+      ? { required: true, disableUnderline: true }
+      : { required: true };
+
   return (
     <div style={{ borderBottom: '1px solid white' }}>
       <StyledTextField
-        variant="standard"
         fullWidth
-        color="secondary" // just force to white color
+        color="secondary"
+        variant={variant}
         InputProps={{
-          required: true,
-          disableUnderline: true,
+          ...inputProps,
+          ...props.InputProps, // merge any InputProps passed in
         }}
         {...props}
       />
